@@ -12,7 +12,7 @@ class MultiClient(threading.Thread):
     def run(self):
         while True:
             try:
-                recv_data = new_socket.recv(1024).decode('utf-8')
+                recv_data = self.socket.recv(1024).decode('utf-8')
 
                 if not recv_data:
                     break
