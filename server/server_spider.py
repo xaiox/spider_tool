@@ -32,10 +32,10 @@ class Spider:
     def spider_barrage(self, input_link: str):
         """输入对应视频的链接或bv号，输出爬到的弹幕列表"""
         bv = input_link
-        self.cursor.execute('SHOW TABLES LIKE \'{}\';'.format(bv))
+        self.cursor.execute('SHOW TABLES LIKE \'{}\';'.format(bv+'_barrage'))
         if self.cursor.fetchone():
             barrage = []
-            self.cursor.execute('select * from {};'.format('bv_list'))
+            self.cursor.execute('select * from {};'.format(bv+'_barrage'))
             for _ in self.cursor.fetchall():
                 barrage.append(_[1])
             return barrage
