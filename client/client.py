@@ -21,7 +21,7 @@ class Client:
             self.tip('已经连接了服务器！')
         else:
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            client_socket.connect(('124.222.116.179', 515))
+            client_socket.connect(('127.0.0.1', 515))
             self.status.append(client_socket)
             self.status.append(time.time())
             self.tip('成功连接服务器!')
