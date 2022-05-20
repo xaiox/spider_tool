@@ -28,7 +28,7 @@ class Client:
                 self.tip('成功连接服务器!')
             except ConnectionRefusedError as e:
                 self.tip(e.strerror)
-                self.tip('请联系管理员解决问题！q:15730208650')
+                self.tip('请联系管理员解决问题！q:1573020860')
 
     def close(self):
         if self.status:
