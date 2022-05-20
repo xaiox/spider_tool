@@ -11,7 +11,6 @@ hot_url = 'https://www.bilibili.com/v/popular/all?spm_id_from=333.851.b_7072696d
 # 普通视频的基本url
 base_url = 'https://www.bilibili.com/video/'
 
-
 class Spider:
     def __init__(self):
         """初始化操作，创建一个浏览器对象和mysql连接"""
@@ -81,11 +80,6 @@ class Spider:
                 self.db.commit()
             except:
                 print('储存id:{},barrage:[{}] 失败!'.format(id+1, value))
-        # try:
-        #     self.cursor.execute('insert into {} values(\'{}\',\'{}\');'.format('bv_list', url_list[i][23:], title_list[i]))
-        #     self.db.commit()
-        # except:
-        #     text += '存储title[{}]出错！\n'.format(title_list[i])
 
 
 if __name__ == '__main__':

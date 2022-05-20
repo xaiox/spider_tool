@@ -43,14 +43,15 @@ class MultiClient(threading.Thread):
             except ConnectionResetError as e:
                 print(e)
 
-        print('已断开 [{}] 的连接！'.format(client_addr))
-
     def __del__(self):
         self.socket.close()
+        conn_count[0] -= 1
+        print('已断开 [{}] 的连接！当前服务器连接数:{}'.format(client_addr, conn_count[0]))
         del self.spider
 
 
 bv_list = []
+conn_count = [0]
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listen_socket:
     # 监听socket绑定地址
 
@@ -61,7 +62,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listen_socket:
     while True:
         print('正在等待客户端的连接...')
         new_socket, client_addr = listen_socket.accept()
-        print('正在连接:', client_addr)
+        conn_count[0] += 1
+        print('正在连接:[{}], 服务器连接数:{}'.format(client_addr, conn_count[0]))
 
         client = MultiClient(new_socket)
         client.start()
