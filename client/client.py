@@ -20,11 +20,15 @@ class Client:
         if self.status:
             self.tip('已经连接了服务器！')
         else:
-            client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            client_socket.connect(('127.0.0.1', 515))
-            self.status.append(client_socket)
-            self.status.append(time.time())
-            self.tip('成功连接服务器!')
+            try:
+                client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                client_socket.connect(('127.0.0.1', 515))
+                self.status.append(client_socket)
+                self.status.append(time.time())
+                self.tip('成功连接服务器!')
+            except ConnectionRefusedError as e:
+                self.tip(e.strerror)
+                self.tip('请联系管理员解决问题！q:15730208650')
 
     def close(self):
         if self.status:
