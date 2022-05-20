@@ -21,9 +21,10 @@ class Client:
             self.tip('已经连接了服务器！')
         else:
             try:
-                client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                client_socket.connect(('127.0.0.1', 515))
-                self.status.append(client_socket)
+                # client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                # client_socket.connect(('127.0.0.1', 515))
+                self.status.append(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+                self.status[0].connect(('127.0.0.1', 515))
                 self.status.append(time.time())
                 self.tip('成功连接服务器!')
             except ConnectionRefusedError as e:
@@ -32,6 +33,7 @@ class Client:
 
     def close(self):
         if self.status:
+            self.status[0].send('q!'.encode('utf-8'))
             self.status[0].close()
             self.status.pop()
             self.status.pop()
@@ -86,6 +88,7 @@ class Client:
 
     def __del__(self):
         if self.status:
+            self.status[0].send('q!'.encode('utf-8'))
             self.status[0].close()
             self.status.pop()
             self.status.pop()

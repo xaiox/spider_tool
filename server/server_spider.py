@@ -15,7 +15,7 @@ class Spider:
     def __init__(self):
         """初始化操作，创建一个浏览器对象和mysql连接"""
         option = webdriver.FirefoxOptions()
-        option.add_argument('-headless')
+        # option.add_argument('-headless')
         self.driver = webdriver.Firefox(options=option)
         self.db = pymysql.connect(host='localhost', user='lll', password='2954971698lll')
         self.cursor = self.db.cursor()
@@ -24,15 +24,19 @@ class Spider:
 
     def __del__(self):
         """对象销毁时将浏览器和数据库连接关闭"""
-        self.driver.quit()
-        self.cursor.close()
-        self.db.close()
+        try:
+            self.driver.quit()
+            self.cursor.close()
+            self.db.close()
+        except pymysql.err.Error:
+            pass
 
     def spider_barrage(self, input_link: str):
         """输入对应视频的链接或bv号，输出爬到的弹幕列表"""
         bv = input_link
         self.cursor.execute('SHOW TABLES LIKE \'{}\';'.format(bv+'_barrage'))
         if self.cursor.fetchone():
+            print('从数据库中寻找。。')
             barrage = []
             self.cursor.execute('select * from {};'.format(bv+'_barrage'))
             for _ in self.cursor.fetchall():
